@@ -4,7 +4,6 @@
 """
 from typing import Dict, List, Tuple
 
-# 按类别组织的预设
 PRESETS: Dict[str, List[Tuple[str, Tuple[int, int]]]] = {
     "SD1.5": [
         ("512×512 (1:1)", (512, 512)),
@@ -29,27 +28,21 @@ PRESETS: Dict[str, List[Tuple[str, Tuple[int, int]]]] = {
         ("640×1600 (2:5)", (640, 1600)),
     ],
     "FLUX": [
-        # 基础尺寸
         ("1024×1024 (1:1)", (1024, 1024)),
         ("1280×720 (16:9)", (1280, 720)),
         ("720×1280 (9:16)", (720, 1280)),
         ("1536×640 (12:5)", (1536, 640)),
         ("640×1536 (5:12)", (640, 1536)),
-        # 2K系列
         ("1920×1080 (16:9) 2K", (1920, 1080)),
         ("1080×1920 (9:16) 2K竖版", (1080, 1920)),
         ("2048×1080 (17:9) 2K DCI", (2048, 1080)),
-        # 2.5K系列
         ("2560×1440 (16:9) 2.5K", (2560, 1440)),
         ("1440×2560 (9:16) 2.5K竖版", (1440, 2560)),
-        # 3K系列
         ("3072×1728 (16:9) 3K", (3072, 1728)),
         ("1728×3072 (9:16) 3K竖版", (1728, 3072)),
-        # 4K系列
         ("3840×2160 (16:9) 4K UHD", (3840, 2160)),
         ("2160×3840 (9:16) 4K竖版", (2160, 3840)),
         ("4096×2160 (17:9) 4K DCI", (4096, 2160)),
-        # 超大尺寸
         ("5120×2880 (16:9) 5K", (5120, 2880)),
         ("6144×3456 (16:9) 6K", (6144, 3456)),
     ],
@@ -80,9 +73,17 @@ RESIZE_ALGOS = ["lanczos", "bilinear", "nearest"]
 
 def get_size_from_preset(choices: dict) -> Tuple[int, int]:
     """根据选择的预设获取尺寸"""
-    for k, v in choices.items():
-        if v != "关":
-            for name, wh in PRESETS.get(k, []):
-                if name == v:
-                    return wh
+    active_presets = [(k, v) for k, v in choices.items() if v != "关"]
+
+    # 如果用户选了多个预设，抛出明确错误
+    if len(active_presets) > 1:
+        names = ", ".join([f"{k}={v}" for k, v in active_presets])
+        raise ValueError(f"只能选择一个模型的预设分辨率，当前选择了多个: {names}")
+
+    if len(active_presets) == 1:
+        k, v = active_presets[0]
+        for name, wh in PRESETS.get(k, []):
+            if name == v:
+                return wh
+
     return (512, 512)
