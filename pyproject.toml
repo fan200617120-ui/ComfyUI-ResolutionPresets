@@ -1,29 +1,15 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "comfyui-resolution-presets"
+name = "ComfyUI_ResolutionPresets"
 version = "1.0.0"
-description = "Professional resolution presets plugin for ComfyUI"
+description = "专业的ComfyUI分辨率预设与工具插件"
+authors = [{ name = "fan200617120-ui" }]
+license = { file = "MIT License.txt" }
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "MIT"}
-authors = [
-    {name = "Your Name", email = "your.email@example.com"}
-]
-keywords = ["comfyui", "ai", "resolution", "image-processing", "plugin"]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Multimedia :: Graphics",
+dependencies = [
+    "Pillow>=9.0.0",
+    "numpy>=1.21.0",
+    "torch>=1.10.0"
 ]
 
 [project.urls]
