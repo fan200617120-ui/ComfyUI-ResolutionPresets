@@ -1,8 +1,6 @@
 """
 ComfyUI Resolution Presets 🎯
-专业分辨率预设插件
-License: MIT
-作者: fan200617120-ui
+专业分辨率预设与工具插件
 """
 
 __version__ = "1.0.0"
